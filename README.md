@@ -34,3 +34,10 @@ theme.
    ```bash
    source ~/.bashrc
    ```
+
+## Optional: ble.sh Syntax Color Consistency
+
+If you also use `ble.sh`, you can apply an OMZ-like syntax face mapping so command
+colors stay visually consistent with this prompt preset.
+
+- Quick guide and commands: [blesh/README.md](blesh/README.md)
