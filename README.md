@@ -1,0 +1,1 @@
+# startship-p10k-like-preset
