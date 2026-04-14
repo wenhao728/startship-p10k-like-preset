@@ -1,0 +1,212 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Keep p10k behavior: blank line between prompts.
+add_newline = true
+scan_timeout = 30
+command_timeout = 500
+
+# p10k-lean-like layout:
+# left  -> os + dir + vcs + prompt char
+# right -> status + timing + env/tooling + cloud/context + time
+format = "$os$directory$git_branch$git_status$character"
+right_format = "$status$cmd_duration$jobs$direnv$conda$python$golang$nodejs$ruby$lua$java$perl$php$haskell$kubernetes$terraform$aws$azure$gcloud$nix_shell$username$hostname${custom.ranger}${custom.nnn}${custom.lf}${custom.xplr}$time"
+
+[os]
+disabled = false
+format = "[$symbol]($style)"
+style = "fg:245"
+
+[character]
+success_symbol = "[❯](fg:76)"
+error_symbol = "[❯](fg:196)"
+vimcmd_symbol = "[❮](fg:76)"
+# zsh currently supports vimcmd_symbol; these are included for portability.
+vimcmd_replace_one_symbol = "[❮](fg:76)"
+vimcmd_replace_symbol = "[❮](fg:76)"
+vimcmd_visual_symbol = "[V](fg:76)"
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "fg:31"
+read_only = " "
+read_only_style = "fg:160"
+home_symbol = "~"
+truncate_to_repo = true
+truncation_length = 3
+truncation_symbol = "…/"
+fish_style_pwd_dir_length = 1
+
+[git_branch]
+format = "on [$symbol$branch]($style) "
+symbol = " "
+style = "fg:76"
+truncation_length = 32
+truncation_symbol = "…"
+
+[git_status]
+style = "fg:76"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = " ~${count}"
+stashed = " *${count}"
+deleted = " -${count}"
+renamed = " »${count}"
+modified = " !${count}"
+staged = " +${count}"
+untracked = " ?${count}"
+typechanged = " ~${count}"
+ahead = " ⇡${count}"
+behind = " ⇣${count}"
+diverged = " ⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+
+[status]
+disabled = false
+format = "[$symbol$status]($style) "
+symbol = "✘"
+success_symbol = "✔"
+success_style = "fg:70"
+failure_style = "fg:160"
+pipestatus = true
+pipestatus_separator = "|"
+pipestatus_format = "[$pipestatus]($style) "
+
+[cmd_duration]
+min_time = 3000
+show_milliseconds = false
+format = "[took $duration](fg:101) "
+
+[jobs]
+symbol = "✦"
+style = "fg:70"
+number_threshold = 2
+symbol_threshold = 1
+format = "[$symbol$number]($style) "
+
+[direnv]
+disabled = false
+symbol = "direnv "
+style = "fg:178"
+format = "[$symbol$loaded/$allowed]($style) "
+
+[python]
+style = "fg:37"
+format = "via [${symbol}${pyenv_prefix}(${version} )(\\($virtualenv\\) )]($style)"
+python_binary = ["python3", "python"]
+detect_extensions = []
+detect_files = []
+detect_folders = []
+
+[conda]
+style = "fg:37"
+symbol = " "
+ignore_base = false
+format = "via [$symbol$environment]($style) "
+
+[golang]
+style = "fg:37"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[nodejs]
+style = "fg:70"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[ruby]
+style = "fg:168"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[lua]
+style = "fg:32"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[java]
+style = "fg:32"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[perl]
+style = "fg:67"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[php]
+style = "fg:99"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[haskell]
+style = "fg:172"
+symbol = " "
+format = "via [$symbol($version )]($style)"
+
+[kubernetes]
+style = "fg:39"
+format = "on [$symbol$context( \\($namespace\\))]($style) "
+
+[terraform]
+style = "fg:38"
+format = "via [$symbol$workspace]($style) "
+
+[aws]
+style = "fg:208"
+format = "on [$symbol$profile(\\($region\\))]($style) "
+
+[azure]
+style = "fg:32"
+format = "on [$symbol($subscription)]($style) "
+
+[gcloud]
+style = "fg:32"
+format = "on [$symbol$account(@$domain)(\\($project\\))]($style) "
+
+[nix_shell]
+style = "fg:74"
+format = "via [$symbol$state( \\($name\\))]($style) "
+
+# Approximate p10k context segment:
+# p10k shows "with user@host" mostly for remote/root contexts.
+[username]
+show_always = false
+style_user = "fg:180"
+style_root = "fg:178"
+format = "[with $user]($style)@"
+
+[hostname]
+ssh_only = true
+style = "fg:180"
+format = "[$hostname]($style) "
+
+[time]
+disabled = false
+style = "fg:66"
+time_format = "%H:%M:%S"
+format = "[at  $time]($style) "
+use_12hr = false
+
+# p10k shell-context modules that Starship doesn't have natively.
+[custom.ranger]
+when = "test -n \"$RANGER_LEVEL\""
+command = "printf ranger"
+style = "fg:178"
+format = "[$output]($style) "
+
+[custom.nnn]
+when = "test -n \"$NNNLVL\""
+command = "printf nnn"
+style = "fg:72"
+format = "[$output]($style) "
+
+[custom.lf]
+when = "test -n \"$LF_LEVEL\""
+command = "printf lf"
+style = "fg:72"
+format = "[$output]($style) "
+
+[custom.xplr]
+when = "test -n \"$XPLR\""
+command = "printf xplr"
+style = "fg:72"
+format = "[$output]($style) "
