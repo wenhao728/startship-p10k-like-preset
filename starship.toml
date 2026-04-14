@@ -1,0 +1,198 @@
+# Starship Prompt Configuration
+# Powerlevel10k-like theme for Bash
+#
+# Requirements:
+#   - Starship (https://starship.rs/)
+#   - A Nerd Font installed and configured in your terminal emulator
+#     (e.g. MesloLGS NF, FiraCode Nerd Font, JetBrains Mono Nerd Font)
+#
+# Installation:
+#   cp starship.toml ~/.config/starship.toml
+#   Add to ~/.bashrc:  eval "$(starship init bash)"
+
+# ── Prompt layout ─────────────────────────────────────────────────────────────
+#
+#  ╭─  user  @  host   ~/path/to/dir   branch  status  ─────  1s   09:45 
+#  ╰─ ❯
+#
+# Left  : os · username · hostname · directory · git branch · git status
+# Right : command duration · time
+# Line 2: prompt character (❯ green on success, red on failure)
+# ──────────────────────────────────────────────────────────────────────────────
+
+format = """
+$os\
+[](fg:#1C3A5E bg:none)\
+$username\
+$hostname\
+[](fg:#1C3A5E bg:#394260)\
+$directory\
+[](fg:#394260 bg:#212736)\
+$git_branch\
+$git_status\
+$git_state\
+[](fg:#212736 bg:none)\
+$fill\
+$cmd_duration\
+$jobs\
+$time\
+$line_break\
+$character\
+"""
+
+right_format = ""
+
+# Insert a blank line between prompts for readability
+add_newline = true
+
+# ── OS icon ───────────────────────────────────────────────────────────────────
+[os]
+disabled = false
+format = "[ $symbol ]($style)"
+style = "bg:#1C3A5E fg:#c0caf5 bold"
+
+[os.symbols]
+Alpine   = " "
+Amazon   = " "
+Android  = " "
+Arch     = " "
+CentOS   = " "
+Debian   = " "
+Fedora   = " "
+FreeBSD  = " "
+Linux    = " "
+Macos    = " "
+Manjaro  = " "
+Mint     = " "
+NixOS    = " "
+OpenBSD  = " "
+Raspbian = " "
+Redhat   = " "
+SUSE     = " "
+Ubuntu   = " "
+Unknown  = " "
+Windows  = " "
+
+# ── User ──────────────────────────────────────────────────────────────────────
+[username]
+show_always = true
+style_user  = "bg:#1C3A5E fg:#cba6f7"
+style_root  = "bg:#1C3A5E fg:red bold"
+format      = "[ $user]($style)"
+
+# ── Hostname ──────────────────────────────────────────────────────────────────
+[hostname]
+ssh_only  = false
+style     = "bg:#1C3A5E fg:#cba6f7"
+format    = "[@$hostname ]($style)"
+trim_at   = "."
+disabled  = false
+
+# ── Directory ─────────────────────────────────────────────────────────────────
+[directory]
+style              = "bg:#394260 fg:#7aa2f7 bold"
+read_only_style    = "bg:#394260 fg:#f38ba8"
+format             = "[ $path$read_only ]($style)"
+read_only          = " 󰌾"
+truncation_length  = 4
+truncate_to_repo   = false
+home_symbol        = "~"
+
+# ── Git branch ────────────────────────────────────────────────────────────────
+[git_branch]
+symbol = " "
+style  = "bg:#212736 fg:#89dceb"
+format = "[ $symbol$branch(:$remote_branch) ]($style)"
+
+# ── Git status ────────────────────────────────────────────────────────────────
+[git_status]
+style      = "bg:#212736 fg:#f9e2af"
+format     = "([$all_status$ahead_behind ]($style))"
+conflicted = "⚡"
+ahead      = "⬆${count}"
+behind     = "⬇${count}"
+diverged   = "⬆${ahead_count}⬇${behind_count}"
+up_to_date = "✔"
+untracked  = "?${count}"
+stashed    = "📦"
+modified   = "!${count}"
+staged     = "+${count}"
+renamed    = "»${count}"
+deleted    = "✘${count}"
+
+# ── Git state (rebase / merge / cherry-pick …) ────────────────────────────────
+[git_state]
+style          = "bg:#212736 fg:#f38ba8 bold"
+format         = "([$state( $progress_current/$progress_total) ]($style))"
+rebase         = "REBASE"
+merge          = "MERGE"
+revert         = "REVERT"
+cherry_pick    = "CHERRY"
+bisect         = "BISECT"
+am             = "AM"
+am_or_rebase   = "AM/REBASE"
+
+# ── Fill (pushes right-side modules to the right) ─────────────────────────────
+[fill]
+symbol = " "
+style  = "fg:#3d4f7c"
+
+# ── Command duration ──────────────────────────────────────────────────────────
+[cmd_duration]
+min_time           = 2_000
+show_milliseconds  = false
+style              = "fg:#f38ba8"
+format             = "[ 󱎫 $duration ]($style)"
+
+# ── Background jobs ───────────────────────────────────────────────────────────
+[jobs]
+symbol          = "󰒋 "
+style           = "fg:#fab387 bold"
+format          = "[$symbol$number ]($style)"
+number_threshold = 1
+
+# ── Time ──────────────────────────────────────────────────────────────────────
+[time]
+disabled     = false
+time_format  = "%H:%M"
+style        = "fg:#b4befe"
+format       = "[ 󱑌 $time ]($style)"
+
+# ── Prompt character ──────────────────────────────────────────────────────────
+[character]
+success_symbol  = "[╰─❯](bold fg:#a6e3a1)"
+error_symbol    = "[╰─❯](bold fg:#f38ba8)"
+vimcmd_symbol   = "[╰─❮](bold fg:#a6e3a1)"
+
+# ── Python virtualenv ─────────────────────────────────────────────────────────
+[python]
+symbol        = " "
+style         = "fg:#f9e2af"
+format        = '[ ${symbol}(${version} )(\($virtualenv\) )]($style)'
+detect_files  = ["requirements.txt", "setup.py", "pyproject.toml", ".python-version"]
+
+# ── Node.js ───────────────────────────────────────────────────────────────────
+[nodejs]
+symbol       = " "
+style        = "fg:#a6e3a1"
+format       = "[ $symbol$version ]($style)"
+detect_files = ["package.json", ".nvmrc", ".node-version"]
+
+# ── Rust ──────────────────────────────────────────────────────────────────────
+[rust]
+symbol       = " "
+style        = "fg:#fab387"
+format       = "[ $symbol$version ]($style)"
+
+# ── Go ────────────────────────────────────────────────────────────────────────
+[golang]
+symbol       = " "
+style        = "fg:#89dceb"
+format       = "[ $symbol$version ]($style)"
+
+# ── Docker context ────────────────────────────────────────────────────────────
+[docker_context]
+symbol  = " "
+style   = "fg:#89b4fa"
+format  = "[ $symbol$context ]($style)"
+only_with_files = false
